@@ -1,18 +1,24 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const QuickLinks = () => {
+const QuickLinks = (props) => {
 	return (
 		<nav className="main-nav">
 			<ul>
 				<li>
-					<NavLink to="../search/trees">Tree</NavLink>
+					<Link to="../search/trees" onClick={() => props.handleSearch('Trees')}>
+						Trees
+					</Link>
 				</li>
 				<li>
-					<NavLink to="../search/house">House</NavLink>
+					<Link to="../search/house" onClick={() => props.handleSearch('House')}>
+						House
+					</Link>
 				</li>
 				<li>
-					<NavLink to="../search/teacher">Teacher</NavLink>
+					<Link to="../search/teacher" onClick={() => props.handleSearch('Teacher')}>
+						Teacher
+					</Link>
 				</li>
 			</ul>
 		</nav>
