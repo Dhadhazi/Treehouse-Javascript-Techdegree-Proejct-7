@@ -6,11 +6,14 @@ class Search extends Component {
 		this.textInput = React.createRef();
 	}
 
+	//Sends back the keyword to the app, and updates the url history accordingly
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const path = `../search/${this.textInput.current.value}`;
+		const word = this.textInput.current.value;
+		const path = `../search/${word}`;
 		e.currentTarget.reset();
-		window.location.replace(path);
+		window.history.pushState({ urlPath: path }, '', path);
+		this.props.handleSearch(word);
 	};
 
 	render() {

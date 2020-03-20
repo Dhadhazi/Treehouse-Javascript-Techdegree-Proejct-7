@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Search from './Search';
 import QuickLinks from './QuickLinks';
@@ -16,20 +16,22 @@ class App extends Component {
 		};
 	}
 
-	//Checks if the route is /search/anything, if yes get the keyword and initate the search, otherwise just call search for trees
+	//Gives a gallery on the first loading
 	componentDidMount() {
-		const regex = new RegExp('^/search/.+');
-		if (regex.test(window.location.pathname)) {
-			const query = window.location.pathname.split('/');
-			this.handleSearch(query[2]);
-		}
-		else {
-			this.handleSearch();
+		this.handleSearch();
+	}
+
+	//When the url changes due to links and have a keyword it will call a search on it
+	componentDidUpdate(prevProps) {
+		if (this.props.location !== prevProps.location) {
+			if (this.props.match.params.keyword) {
+				this.handleSearch(this.props.match.params.keyword);
+			}
 		}
 	}
 
-	//Gets the data, default is about trees
-	handleSearch = (query = 'tree') => {
+	//Gets the data, default is about europe
+	handleSearch = (query = 'europe') => {
 		fetch(
 			`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=1478888a4d85ae309e235cf5324675ee&tags=${query}&per_page=12&page=1&format=json&nojsoncallback=1`
 		)
@@ -48,28 +50,26 @@ class App extends Component {
 
 	render() {
 		return (
-			<BrowserRouter>
-				<div className="App">
-					<Search />
-					<QuickLinks />
-					<Switch>
-						<Route
-							exact
-							path={[
-								'/',
-								'/search/:query'
-							]}
-						>
-							{this.state.loading ? (
-								<p>Loading...</p>
-							) : (
-								<Gallery data={this.state.photos} title={this.state.title} />
-							)}
-						</Route>
-						<Route component={NoPage} />
-					</Switch>
-				</div>
-			</BrowserRouter>
+			<div className="App">
+				<Search handleSearch={this.handleSearch} />
+				<QuickLinks />
+				<Switch>
+					<Route
+						exact
+						path={[
+							'/',
+							'/search/:query'
+						]}
+					>
+						{this.state.loading ? (
+							<p>Loading...</p>
+						) : (
+							<Gallery data={this.state.photos} title={this.state.title} />
+						)}
+					</Route>
+					<Route component={NoPage} />
+				</Switch>
+			</div>
 		);
 	}
 }

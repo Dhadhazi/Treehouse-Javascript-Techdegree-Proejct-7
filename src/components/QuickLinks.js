@@ -1,24 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const QuickLinks = (props) => {
+//Top 3 navigation links
+const QuickLinks = () => {
 	return (
 		<nav className="main-nav">
 			<ul>
 				<li>
-					<Link to="../search/trees" onClick={() => props.handleSearch('Trees')}>
-						Trees
-					</Link>
+					<Link to="../search/trees">Trees</Link>
 				</li>
 				<li>
-					<Link to="../search/house" onClick={() => props.handleSearch('House')}>
-						House
-					</Link>
+					<Link to="../search/house">House</Link>
 				</li>
 				<li>
-					<Link to="../search/teacher" onClick={() => props.handleSearch('Teacher')}>
-						Teacher
-					</Link>
+					<Link to="../search/teacher">Teacher</Link>
 				</li>
 			</ul>
 		</nav>
